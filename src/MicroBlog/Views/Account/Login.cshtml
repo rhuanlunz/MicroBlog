@@ -1,0 +1,26 @@
+@model MicroBlog.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<form asp-action="Login">
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="All"></div>
+
+    <div>
+        <label asp-for="Email"></label>
+        <input type="email" asp-for="Email">
+        <span asp-validation-for="Email"></span>
+    </div>
+
+    <div>
+        <label asp-for="Password"></label>
+        <input type="password" asp-for="Password">
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <div>
+        <button type="submit">Login</button>
+    </div>
+</form>

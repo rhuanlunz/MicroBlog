@@ -1,0 +1,4 @@
+./src/MicroBlog/bin/*
+./src/MicroBlog/obj/*
+./src/MicroBlog/wwwroot/lib/*
+./src/MicroBlog/Data/*.db
