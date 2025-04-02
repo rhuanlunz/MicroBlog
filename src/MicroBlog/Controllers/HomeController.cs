@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MicroBlog.Controllers;
 
-[Authorize]
+[AllowAnonymous]
 public class HomeController : Controller
 {
     public IActionResult Home()

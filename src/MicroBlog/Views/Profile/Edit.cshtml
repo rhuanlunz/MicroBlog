@@ -1,0 +1,46 @@
+@model MicroBlog.Models.ProfileViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<form asp-action="Edit">
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="All"></div>
+
+    <div>
+        <label asp-for="Username"></label>
+        <input type="text" asp-for="Username" value="@Model.Username.ToLower()">
+        <span asp-validation-for="Username"></span>
+    </div>
+
+    <div>
+        <label asp-for="Email"></label>
+        <input type="email" asp-for="Email" value="@Model.Email.ToLower()">
+        <span asp-validation-for="Email"></span>
+    </div>
+
+    <div>
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" rows="5" value="@Model.Description"></textarea>
+        <span asp-validation-for="Description"></span>
+    </div>
+
+    <div>
+        <label asp-for="CurrentPassword"></label>
+        <input type="password" asp-for="CurrentPassword" value="@Model.CurrentPassword">
+        <span asp-validation-for="CurrentPassword"></span>
+    </div>
+
+    <div>
+        <label asp-for="NewPassword"></label>
+        <input type="password" asp-for="NewPassword" value="@Model.NewPassword">
+        <span asp-validation-for="NewPassword"></span>
+    </div>
+
+    <div>
+        <button type="submit">Save changes</button>
+    </div>
+</form>
+
+<a asp-action="Profile">Go back</a>

@@ -1,0 +1,17 @@
+@model MicroBlog.Models.ProfileViewModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+
+<a asp-controller="Profile" asp-action="Edit">Edit profile</a>
+<a asp-controller="Account" asp-action="Logout">Logout</a>
+
+<h1>@Model.Username.ToLower()</h1>
+<h2><em>@Model.Email.ToLower()</em></h2>
+<h3>@Model.Description</h3>
+
+<hr>
+
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis atque, repellat eius ratione dignissimos amet dolores modi est nobis suscipit quasi non vel nostrum reprehenderit! Fuga debitis qui distinctio culpa.</p>
+

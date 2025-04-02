@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace MicroBlog.Controllers;
 
-public class AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager) : Controller
+public class AccountController(UserManager<User> userManager, SignInManager<User> signInManager) : Controller
 {
-    private readonly UserManager<IdentityUser> _userManager = userManager;
-    private readonly SignInManager<IdentityUser> _signInManager = signInManager;
+    private readonly UserManager<User> _userManager = userManager;
+    private readonly SignInManager<User> _signInManager = signInManager;
 
     [HttpGet]
     public IActionResult Register()
@@ -36,7 +36,13 @@ public class AccountController(UserManager<IdentityUser> userManager, SignInMana
             return View(model);    
         }
 
-        var user = new IdentityUser { UserName = model.Username, Email = model.Email };
+        var user = new User 
+        { 
+            UserName = model.Username,
+            Email = model.Email,
+            NormalizedUserName = model.Username,
+            NormalizedEmail = model.Email
+        };
         var userCreationResult = await _userManager.CreateAsync(user, model.Password);
 
         if (!userCreationResult.Succeeded)
@@ -52,7 +58,7 @@ public class AccountController(UserManager<IdentityUser> userManager, SignInMana
     }
 
     [HttpPost]
-    public async Task<IActionResult> Login(LoginViewModel model)
+    public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
     {
         if (!ModelState.IsValid)
         {
@@ -75,6 +81,6 @@ public class AccountController(UserManager<IdentityUser> userManager, SignInMana
             return View(model);
         }
 
-        return RedirectToAction("Home", "Home");
+        return LocalRedirect(returnUrl ?? "/Profile/Profile");
     }
 }
