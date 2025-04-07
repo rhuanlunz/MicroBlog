@@ -9,4 +9,6 @@ public class LoginViewModel
 
     [Required]
     public string Password { get;set; } = default!;
+
+    public string? ReturnUrl { get;set; }
 }

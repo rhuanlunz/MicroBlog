@@ -6,4 +6,5 @@ namespace MicroBlog.Data;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<User>(options)
 {
+    public DbSet<Post> Posts { get;set; }
 }

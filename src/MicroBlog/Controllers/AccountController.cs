@@ -1,34 +1,40 @@
 using Microsoft.AspNetCore.Mvc;
 using MicroBlog.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MicroBlog.Controllers;
 
-public class AccountController(UserManager<User> userManager, SignInManager<User> signInManager) : Controller
+[AllowAnonymous]
+[Route("account")]
+public class AccountController(
+    UserManager<User> userManager, 
+    SignInManager<User> signInManager) : Controller
 {
     private readonly UserManager<User> _userManager = userManager;
     private readonly SignInManager<User> _signInManager = signInManager;
 
-    [HttpGet]
+    [HttpGet("register")]
     public IActionResult Register()
     {
         return View();
     }
 
-    [HttpGet]
-    public IActionResult Login()
+    [HttpGet("login")]
+    public IActionResult Login([FromQuery] string? returnUrl)
     {
+        ViewBag.ReturnUrl = returnUrl;
         return View();
     }
 
-    [HttpGet]
+    [HttpGet("logout")]
     public async Task<IActionResult> LogOut()
     {
         await _signInManager.SignOutAsync();
         return RedirectToAction("Login");
     }
 
-    [HttpPost]
+    [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterViewModel model)
     {
         if (!ModelState.IsValid)
@@ -57,8 +63,8 @@ public class AccountController(UserManager<User> userManager, SignInManager<User
         return RedirectToAction("Login");
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginViewModel model)
     {
         if (!ModelState.IsValid)
         {
@@ -81,6 +87,6 @@ public class AccountController(UserManager<User> userManager, SignInManager<User
             return View(model);
         }
 
-        return LocalRedirect(returnUrl ?? "/Profile/Profile");
+        return LocalRedirect(model.ReturnUrl ?? $"/profile/{user.NormalizedUserName.ToLower()}");
     }
 }

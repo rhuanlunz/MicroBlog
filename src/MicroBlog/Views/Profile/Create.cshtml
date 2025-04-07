@@ -1,0 +1,35 @@
+@model MicroBlog.Models.User
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div id="user-id" hidden>@Model.Id</div>
+<textarea id="content" rows="10"></textarea>
+<button id="send">Create</button>
+
+<button onclick="window.history.back();">Go Back</button>
+
+<script>
+    document.querySelector("#send").addEventListener("click", async () => {
+        const userId = document.querySelector("#user-id").innerText;
+        const content = document.querySelector("#content").value;
+
+        fetch("/api/posts/create_post", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                'userid': userId,
+                'content': content
+            })
+        })
+        .then(r => {
+            if (r.ok)
+                window.history.back();
+            
+            throw new Error("Error! Response not ok.");
+        })
+        .catch(e => console.error(e));
+    });
+</script>

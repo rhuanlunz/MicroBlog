@@ -1,10 +1,13 @@
+using MicroBlog.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MicroBlog.Controllers;
 
 [AllowAnonymous]
-public class HomeController : Controller
+[Route("/")]
+public class HomeController() : Controller
 {
     public IActionResult Home()
     {

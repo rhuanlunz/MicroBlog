@@ -6,21 +6,26 @@ using MicroBlog.Models;
 namespace MicroBlog.Controllers;
 
 [Authorize]
-public class ProfileController(UserManager<User> userManager) : Controller
+[Route("profile")]
+public class ProfileController(
+    UserManager<User> userManager,
+    SignInManager<User> signInManager) : Controller
 {
     private readonly UserManager<User> _userManager = userManager;
+    private readonly SignInManager<User> _signInManager = signInManager;
     
-    [HttpGet]
-    public async Task<IActionResult> Profile()
+    [HttpGet("{username?}")]
+    public async Task<IActionResult> Profile(string username)
     {
-        var user = await _userManager.GetUserAsync(User);
+        var user = await _userManager.FindByNameAsync(username);        
         
         if (user != null)
         {
             var model = new ProfileViewModel
             {
-                Username = user.NormalizedUserName,
-                Email = user.NormalizedEmail,
+                Id = user.Id,
+                Username = user.UserName,
+                Email = user.Email,
                 Description = user.Description
             };
 
@@ -30,14 +35,14 @@ public class ProfileController(UserManager<User> userManager) : Controller
         return NotFound();
     }
 
-    [HttpGet]
+    [HttpGet("edit")]
     public async Task<IActionResult> Edit()
     {
         var user = await _userManager.GetUserAsync(User);
         
         if (user != null)
         {            
-            var model = new ProfileViewModel
+            var model = new EditProfileViewModel
             {
                 Username = user.NormalizedUserName,
                 Email = user.NormalizedEmail,
@@ -51,8 +56,21 @@ public class ProfileController(UserManager<User> userManager) : Controller
         return NotFound();
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Edit(ProfileViewModel model)
+    [HttpGet("create")]
+    public async Task<IActionResult> Create()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        
+        if (user != null)
+        {
+            return View(user);
+        }
+
+        return NotFound();
+    }
+
+    [HttpPost("edit")]
+    public async Task<IActionResult> Edit(EditProfileViewModel model)
     {
         if (!ModelState.IsValid)
         {
@@ -96,6 +114,10 @@ public class ProfileController(UserManager<User> userManager) : Controller
             return View(model);
         }
 
-        return RedirectToAction("Profile");
+        await _signInManager.SignOutAsync();
+
+        await _signInManager.SignInAsync(user, isPersistent: false);
+
+        return LocalRedirect($"/profile/{model.Username}");
     }
 }

@@ -1,4 +1,4 @@
-@model MicroBlog.Models.ProfileViewModel
+@model MicroBlog.Models.EditProfileViewModel
 @{
     ViewData["Title"] = "Edit";
 }
@@ -43,4 +43,4 @@
     </div>
 </form>
 
-<a asp-action="Profile">Go back</a>
+<a href="/profile/@Model.Username.ToLower()">Go back</a>

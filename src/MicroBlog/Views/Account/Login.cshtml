@@ -20,6 +20,8 @@
         <span asp-validation-for="Password"></span>
     </div>
 
+    <input type="text" asp-for="ReturnUrl" value="@ViewBag.ReturnUrl" hidden>
+
     <div>
         <button type="submit">Login</button>
     </div>
