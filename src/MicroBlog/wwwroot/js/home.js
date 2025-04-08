@@ -1,22 +1,16 @@
-import { formatDate, createPostDiv } from "./functions.js";
+import { getPostsPath, renderPosts, addLikePostEvent } from "./functions.js";
 
 window.addEventListener("load", () => {
-    fetch("/api/posts/get_posts")
+    fetch(getPostsPath)
     .then(response => {
         if (response.ok)
             return response.json();
         throw new Error("Response not ok!");
     })
     .then(posts => {    
-        const postsDiv = document.querySelector("#posts");
+        renderPosts(posts);
 
-        if (posts.length != 0) {
-            for (let post of posts) {
-                postsDiv.innerHTML += createPostDiv(post.id, post.username, formatDate(post.createdAt), post.content, post.likes);
-            }
-        } else {
-            postsDiv.innerHTML = "<p> ~ No posts...</p>";
-        }
+        addLikePostEvent();
     })
     .catch(e => console.error(e));
 });

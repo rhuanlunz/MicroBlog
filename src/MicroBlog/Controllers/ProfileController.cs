@@ -17,19 +17,22 @@ public class ProfileController(
     [HttpGet("{username?}")]
     public async Task<IActionResult> Profile(string username)
     {
-        var user = await _userManager.FindByNameAsync(username);        
-        
-        if (user != null)
+        if (username != null)
         {
-            var model = new ProfileViewModel
+            var user = await _userManager.FindByNameAsync(username);        
+        
+            if (user != null)
             {
-                Id = user.Id,
-                Username = user.UserName,
-                Email = user.Email,
-                Description = user.Description
-            };
+                var model = new ProfileViewModel
+                {
+                    Id = user.Id,
+                    Username = user.UserName,
+                    Email = user.Email,
+                    Description = user.Description
+                };
 
-            return View(model);
+                return View(model);
+            }
         }
 
         return NotFound();

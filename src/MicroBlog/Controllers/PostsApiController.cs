@@ -36,6 +36,7 @@ public class PostsApiController(
                                             likes = post.Likes
                                         }
                                     )
+                                    .AsNoTracking()
                                     .OrderByDescending(post => post.createdAt)
                                     .ToListAsync();
         return Ok(posts);
@@ -59,6 +60,7 @@ public class PostsApiController(
                                                 likes = post.Likes
                                             }
                                         )
+                                        .AsNoTracking()
                                         .Where(user => user.userId == userId)
                                         .OrderByDescending(post => post.createdAt)
                                         .ToListAsync();
@@ -91,6 +93,48 @@ public class PostsApiController(
         await _context.SaveChangesAsync();
 
         return Ok();
+    }
+
+    [Authorize]
+    [HttpPost("like_post")]
+    public async Task<IActionResult> LikePostAsync([FromBody] int postId)
+    {
+        var userId = _userManager.GetUserId(User);
+        var post = await _context.Posts
+                                    .AsNoTracking()
+                                    .FirstOrDefaultAsync(post => post.Id == postId);
+        
+        if (post == null || userId == null)
+        {
+            return BadRequest("Post invalid!");
+        }
+
+        var userLike = await _context.Likes
+                                        .AsNoTracking()
+                                        .FirstOrDefaultAsync(like => 
+                                            like.UserId == userId && like.PostId == post.Id
+                                        );
+        if (userLike == null)
+        {
+            post.AddLike();
+            Like newLike = new()
+            {
+                PostId = post.Id,
+                UserId = userId
+            };
+
+            await _context.Likes.AddAsync(newLike);
+        }
+        else
+        {
+            post.RemoveLike();
+            _context.Likes.Remove(userLike);
+        }
+
+        _context.Posts.Update(post);
+        await _context.SaveChangesAsync();
+        
+        return Ok(post.Likes);
     }
 
     private static void EncodeUserInput(Post post)
