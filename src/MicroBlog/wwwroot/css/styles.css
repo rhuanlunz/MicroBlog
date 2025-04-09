@@ -1,0 +1,51 @@
+@import url("colors.css");
+@import url("posts.css");
+@import url("profile.css");
+@import url("navbar.css");
+@import url("forms.css");
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+html {
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text);
+    margin: 0;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#end {
+    font-style: italic;
+    text-align: center;
+    color: gray;
+}
+
+#back {
+    color: gray;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    transition: color .2s;
+}
+
+#back:hover {
+    color: var(--text);
+}
+
+.validation-summary-errors > * {
+    color: red;
+    font-weight: bold;
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}

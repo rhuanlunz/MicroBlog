@@ -3,11 +3,15 @@
     ViewData["Title"] = "Create";
 }
 
-<div id="user-id" hidden>@Model.Id</div>
-<textarea id="content" rows="10"></textarea>
-<button id="send">Create</button>
+<div id="new-post-div">
+    <div id="user-id" hidden>@Model.Id</div>
 
-<button onclick="window.history.back();">Go Back</button>
+    <label for="content" id="content-label">Post content</label>
+    <textarea id="content" rows="10" placeholder="What's new?!"></textarea>
+    <button id="send">Create</button>
+</div>
+
+<a id="back" href="/profile/@Model.UserName.ToLower()">Go back</a>
 
 <script>
     document.querySelector("#send").addEventListener("click", async () => {

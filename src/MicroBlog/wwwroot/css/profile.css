@@ -1,0 +1,46 @@
+#user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--on-background);
+    border: 1px solid gray;
+    border-radius: 15px;
+    box-shadow: 0 0 5px black;
+    margin-bottom: 30px;
+}
+
+#profile-pic {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+#user-data {
+    text-align: center;
+}
+
+#user-description {
+    color: gray;
+}
+
+#buttons {
+    margin-top: 20px;
+    width: 100%;
+}
+
+#add,
+#edit {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    text-decoration: none;
+    color: gray;
+    transition: color .5s;
+}
+
+#add:hover,
+#edit:hover {
+    color: var(--text);
+}

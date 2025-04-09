@@ -3,20 +3,40 @@
     ViewData["Title"] = "Profile";
 }
 
-@if (User.Identity.Name == Model.Username)
-{
-    <a asp-controller="Profile" asp-action="Create">Create new post</a>
-    <a asp-controller="Profile" asp-action="Edit">Edit profile</a>
-    <a asp-controller="Account" asp-action="Logout">Logout</a>
-}
+@* 
 
-<input type="text" id="user-id" value="@Model.Id" hidden>
-<h1>@Model.Username.ToLower()</h1>
-<h2><em>@Model.Email.ToLower()</em></h2>
-<h3>@Model.Description</h3>
+*@
 
-<hr>
+<div id="profile">
+    <div id="user-info">
+        <input type="text" id="user-id" value="@Model.Id" hidden>
+        
+        <picture>
+            <img src="/images/profile-placeholder.jpg" alt="profile picture" id="profile-pic">
+        </picture>
 
-<div id="posts"></div>
+        <div id="user-data">
+            <div id="user-name">@Model.Username.ToLower()</div>
+            <div id="user-description">@Model.Description</div>
+        </div>
+
+        @if (User.Identity.Name == Model.Username)
+        {
+            <div id="buttons">
+                <hr>
+                <a id="edit" asp-controller="Profile" asp-action="Edit">
+                    <span class="material-symbols-outlined">edit</span>
+                    Edit profile
+                </a>
+                <a id="add" asp-controller="Profile" asp-action="Create">
+                    <span class="material-symbols-outlined">add</span>
+                    New post
+                </a>
+            </div>
+        }
+    </div>
+
+    <div id="posts"></div>
+</div>
 
 <script type="module" src="~/js/profile.js"></script>

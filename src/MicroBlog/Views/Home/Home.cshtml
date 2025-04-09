@@ -2,19 +2,6 @@
     ViewData["Title"] = "Home";
 }
 
-@if (User.Identity.IsAuthenticated)
-{
-    <a href="/profile/@User.Identity.Name">My profile</a>
-    <a asp-controller="Account" asp-action="Logout">Logout</a>
-}
-else
-{
-    <a asp-controller="Account" asp-action="Login">Login</a>
-    <a asp-controller="Account" asp-action="Register">Register</a>
-}
-
-<hr>
-
 <div id="posts"></div>
 
 <script type="module" src="~/js/home.js"></script>

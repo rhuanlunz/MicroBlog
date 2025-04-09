@@ -8,22 +8,19 @@
 
     <div asp-validation-summary="All"></div>
 
-    <div>
+    <div id="username-div">
         <label asp-for="Username"></label>
         <input type="text" asp-for="Username">
-        <span asp-validation-for="Username"></span>
     </div>
 
-    <div>
+    <div id="email-div">
         <label asp-for="Email"></label>
         <input type="email" asp-for="Email">
-        <span asp-validation-for="Email"></span>
     </div>
 
-    <div>
+    <div class="password-div">
         <label asp-for="Password"></label>
         <input type="password" asp-for="Password">
-        <span asp-validation-for="Password"></span>
     </div>
 
     <div>

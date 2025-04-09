@@ -3,12 +3,59 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>MicroBlog - @ViewData["Title"]</title>
+        <title>μBlog - @ViewData["Title"]</title>
 
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+        <link rel="stylesheet" href="~/css/styles.css">
     </head>
     <body>
-        <main role="main">
+        <header>
+            <nav>
+                <div id="nav-left">
+                    <div id="nav-app-img">
+                        <img src="/images/app-icon.jpg" alt="app-icon">
+                    </div>
+                    <div id="nav-title"><em>μBlog</em></div>
+                </div>
+                
+                <div id="nav-right">
+                    <ul id="nav-links">
+                        <li class="nav-item">
+                            <a asp-controller="Home" asp-action="Home">
+                                <span class="material-symbols-outlined">home</span>
+                                Home
+                            </a>
+                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a href="/profile/@User.Identity.Name">
+                                    <span class="material-symbols-outlined">account_circle</span>
+                                    @User.Identity.Name
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="logout" asp-controller="Account" asp-action="Logout">
+                                    <span class="material-symbols-outlined">logout</span>
+                                    LogOut
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <main>
             @RenderBody()
         </main>
 

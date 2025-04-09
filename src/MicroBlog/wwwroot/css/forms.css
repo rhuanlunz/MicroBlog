@@ -1,0 +1,65 @@
+form > hr {
+    width: 100%;
+}
+
+form,
+#username-div,
+#email-div,
+.password-div,
+#description-div,
+#new-post-div {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+}
+
+#username-div > label,
+#email-div > label,
+.password-div > label,
+#description-div > label,
+#content-label {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+#Username,
+#Email,
+#Password,
+#Description,
+#CurrentPassword,
+#NewPassword,
+#content {
+    padding: 5px 10px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 5px black;
+    font-size: 1.2rem;
+    background-color: var(--on-background);
+    color: var(--text);
+    outline: 0;
+}
+
+button[type="submit"],
+#send {
+    padding: 10px;
+    border: 0;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: var(--primary);
+    color: var(--text);
+    width: 100%;
+    cursor: pointer;
+    transition: background-color .2s, scale .2s;
+}
+
+button[type="submit"]:hover,
+#send:hover {
+    background-color: var(--primary-variation);
+}
+
+button[type="submit"]:active,
+#send:active {
+    scale: 0.95;
+}
