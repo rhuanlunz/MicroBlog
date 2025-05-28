@@ -1,0 +1,26 @@
+@model Web.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<form asp-action="Login">
+    @Html.AntiForgeryToken()
+    
+    <div asp-validation-summary="All"></div>    
+
+    <div id="email-div">
+        <label asp-for="Email"></label>
+        <input type="email" asp-for="Email">
+    </div>
+
+    <div class="password-div">
+        <label asp-for="Password"></label>
+        <input type="password" asp-for="Password">
+    </div>
+
+    <input type="text" asp-for="ReturnUrl" value="@ViewBag.ReturnUrl" hidden>
+
+    <div>
+        <button type="submit">Login</button>
+    </div>
+</form>

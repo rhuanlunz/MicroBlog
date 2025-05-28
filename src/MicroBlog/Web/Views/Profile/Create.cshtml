@@ -1,0 +1,39 @@
+@* @model Infrastructure.Entities.User
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div id="new-post-div">
+    <div id="user-id" hidden>@Model.Id</div>
+
+    <label for="content" id="content-label">Post content</label>
+    <textarea id="content" rows="10" placeholder="What's new?!"></textarea>
+    <button id="send">Create</button>
+</div>
+
+<a id="back" href="/profile/@Model.UserName.ToLower()">Go back</a>
+
+<script>
+    document.querySelector("#send").addEventListener("click", async () => {
+        const userId = document.querySelector("#user-id").innerText;
+        const content = document.querySelector("#content").value;
+
+        fetch("/api/posts/create_post", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                'userid': userId,
+                'content': content
+            })
+        })
+        .then(r => {
+            if (r.ok)
+                window.history.back();
+            
+            throw new Error("Error! Response not ok.");
+        })
+        .catch(e => console.error(e));
+    });
+</script> *@

@@ -1,0 +1,29 @@
+@model Web.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<form asp-action="Register">
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="All"></div>
+
+    <div id="username-div">
+        <label asp-for="Username"></label>
+        <input type="text" asp-for="Username">
+    </div>
+
+    <div id="email-div">
+        <label asp-for="Email"></label>
+        <input type="email" asp-for="Email">
+    </div>
+
+    <div class="password-div">
+        <label asp-for="Password"></label>
+        <input type="password" asp-for="Password">
+    </div>
+
+    <div>
+        <button type="submit">Register</button>
+    </div>
+</form>
