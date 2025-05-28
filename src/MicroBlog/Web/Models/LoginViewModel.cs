@@ -1,14 +1,8 @@
-using System.ComponentModel.DataAnnotations;
+using ApplicationCore.DTOs;
 
 namespace Web.Models;
 
-public class LoginViewModel
+public class LoginViewModel : LoginDTO
 {
-    [Required]
-    public string Email { get;set; } = default!;
-
-    [Required]
-    public string Password { get;set; } = default!;
-
     public string? ReturnUrl { get;set; }
 }

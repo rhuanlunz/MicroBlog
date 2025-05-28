@@ -12,7 +12,9 @@ public class PostApiService : IPostApiService
     public readonly IPostRepository _postRepository;
     public readonly IMapper _mapper;
 
-    public PostApiService(IPostRepository postRepository, IMapper mapper)
+    public PostApiService(
+        IPostRepository postRepository,
+        IMapper mapper)
     {
         _postRepository = postRepository;
         _mapper = mapper;

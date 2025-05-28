@@ -12,8 +12,14 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(user => user.UserName)
             .IsRequired();
+        
+        builder.Property(user => user.NormalizedUserName)
+            .IsRequired();
 
         builder.Property(user => user.Email)
+            .IsRequired();
+
+        builder.Property(user => user.NormalizedEmail)
             .IsRequired();
 
         builder.Property(user => user.PasswordHash)
@@ -26,8 +32,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Ignore(user => user.LockoutEnabled);
         builder.Ignore(user => user.LockoutEnd);
         builder.Ignore(user => user.TwoFactorEnabled);
-        builder.Ignore(user => user.NormalizedEmail);
-        builder.Ignore(user => user.NormalizedUserName);
         builder.Ignore(user => user.PhoneNumber);
         builder.Ignore(user => user.PhoneNumberConfirmed);
         builder.Ignore(user => user.EmailConfirmed);

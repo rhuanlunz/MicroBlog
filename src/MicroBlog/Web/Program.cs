@@ -1,3 +1,4 @@
+using ApplicationCore.Interfaces;
 using ApplicationCore.MappingProfiles;
 using ApplicationCore.Services;
 using Infrastructure.Context;
@@ -14,6 +15,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPostApiService, PostApiService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseSqlite(builder.Configuration.GetConnectionString("Default"),

@@ -8,8 +8,15 @@ public class ProductMappingProfile : Profile
 {
     public ProductMappingProfile()
     {
-        CreateMap<CreatePostDTO, Post>();
         CreateMap<PostDTO, Post>();
+        CreateMap<CreatePostDTO, Post>();
+        CreateMap<RegisterDTO, User>()
+            .ForMember(
+                dest => dest.UserName,
+                opt => opt.MapFrom(
+                    src => src.Username)
+            );
+
         CreateMap<Post, PostDTO>();
     }
 }

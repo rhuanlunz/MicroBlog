@@ -1,15 +1,7 @@
-using System.ComponentModel.DataAnnotations;
+using ApplicationCore.DTOs;
 
 namespace Web.Models;
 
-public class RegisterViewModel
+public class RegisterViewModel : RegisterDTO
 {
-    [Required]
-    public string Username { get;set; } = default!;
-    
-    [Required]
-    public string Email { get;set; } = default!;
-
-    [Required]
-    public string Password { get;set; } = default!;
 }
