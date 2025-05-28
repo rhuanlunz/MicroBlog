@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Infrastructure.Entities;
 using Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -21,5 +22,12 @@ public class UserRepository : IUserRepository
     public async Task<User>? FindUserByEmail(string email)
     {
         return await _userManager.FindByEmailAsync(email);
+    }
+
+    public async Task<int> GetUserId(ClaimsPrincipal user)
+    {
+        var userObj = await _userManager.GetUserAsync(user);
+
+        return userObj.Id;
     }
 }

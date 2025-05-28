@@ -1,4 +1,4 @@
-using System;
+using System.Security.Claims;
 using System.Web;
 using ApplicationCore.DTOs;
 using AutoMapper;
@@ -9,31 +9,48 @@ namespace ApplicationCore.Services;
 
 public class PostApiService : IPostApiService
 {
-    public readonly IPostRepository _postRepository;
-    public readonly IMapper _mapper;
+    private readonly IPostRepository _postRepository;
+    private readonly IUserRepository _userRepository;
+    private readonly IMapper _mapper;
 
     public PostApiService(
         IPostRepository postRepository,
+        IUserRepository userRepository,
         IMapper mapper)
     {
         _postRepository = postRepository;
+        _userRepository = userRepository;
         _mapper = mapper;
     }
 
-    public async Task CreatePostAsync(CreatePostDTO newPost)
+    public async Task CreatePostAsync(CreatePostDTO newPost, ClaimsPrincipal user)
     {
+        var userId = await _userRepository.GetUserId(user);
+
+        if (userId != newPost.UserId)
+        {
+            throw new Exception("Operation not allowed!");
+        }
+
         var newPostEntity = _mapper.Map<Post>(newPost);
 
         await _postRepository.CreatePostAsync(newPostEntity);
     }
 
-    public async Task DeletePostAsync(int postId)
+    public async Task DeletePostAsync(int postId, ClaimsPrincipal user)
     {
         var post = await _postRepository.GetPostByIdAsync(postId);
 
         if (post == null)
         {
             throw new NullReferenceException($"Post {postId} not found!");
+        }
+
+        var userId = await _userRepository.GetUserId(user);
+
+        if (userId != post.UserId)
+        {
+            throw new Exception("Operation not allowed!");
         }
 
         await _postRepository.DeletePostAsync(post);

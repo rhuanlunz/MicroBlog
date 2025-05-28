@@ -4,8 +4,8 @@ namespace ApplicationCore.DTOs;
 
 public class LoginDTO
 {
-    [EmailAddress]
     [Required]
+    [EmailAddress]
     public string Email { get; set; } = default!;
 
     [Required]

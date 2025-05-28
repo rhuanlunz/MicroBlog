@@ -1,11 +1,14 @@
+using System.Security.Claims;
 using ApplicationCore.DTOs;
 using ApplicationCore.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers.ApiControllers;
 
 [Route("api/posts")]
 [ApiController]
+[Authorize]
 public class PostsApiController : Controller
 {
     private readonly IPostApiService _postApiService;
@@ -16,6 +19,7 @@ public class PostsApiController : Controller
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAllPostsAsync()
     {
         var posts = await _postApiService.GetAllPostsAsync();
@@ -28,6 +32,7 @@ public class PostsApiController : Controller
     }
 
     [HttpGet("{postId}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetPostByIdAsync(int postId)
     {
         try
@@ -55,7 +60,7 @@ public class PostsApiController : Controller
     {
         try
         {
-            await _postApiService.CreatePostAsync(newPost);
+            await _postApiService.CreatePostAsync(newPost, User);
 
             return Ok(new
             {
@@ -78,7 +83,7 @@ public class PostsApiController : Controller
     {
         try
         {
-            await _postApiService.DeletePostAsync(postId);
+            await _postApiService.DeletePostAsync(postId, User);
 
             return Ok(new
             {

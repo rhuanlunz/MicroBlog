@@ -8,8 +8,8 @@ public class RegisterDTO
     [MinLength(4)]
     public string Username { get; set; } = default!;
 
-    [EmailAddress]
     [Required]
+    [EmailAddress]
     public string Email { get; set; } = default!;
 
     [Required]

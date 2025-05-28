@@ -1,13 +1,13 @@
 const likePostPath = "/api/posts/like_post";
 
-export const getPostsPath = "/api/posts/get_posts";
+export const getPostsPath = "/api/posts";
 export const getUserPostsPath = (userId) => `${getPostsPath}/${userId}`;
 
 export function renderPosts(posts) {
     const postsDiv = document.querySelector("#posts");
 
     if (posts.length != 0) {
-        posts.forEach(post => {
+        posts.data.forEach((post) => {
             postsDiv.innerHTML += createPostDiv(post.id, post.username, formatDate(post.createdAt), post.content, post.likes);
         });
 

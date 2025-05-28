@@ -2,6 +2,7 @@ using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Web.Models;
 
 namespace Web.Controllers;
 
@@ -23,8 +24,10 @@ public class AuthController : Controller
     }
 
     [HttpGet("login")]
-    public IActionResult Login()
+    public IActionResult Login([FromQuery] string? returnUrl)
     {
+        ViewBag.ReturnUrl = returnUrl;
+
         return View();
     }
 
@@ -56,19 +59,19 @@ public class AuthController : Controller
     // POST: /auth/login
     [HttpPost("login")]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Login([FromForm] LoginDTO loginDto)
+    public async Task<ActionResult> Login([FromForm] LoginViewModel loginViewModel)
     {
         try
         {
-            await _authService.LoginAsync(loginDto);
+            await _authService.LoginAsync(loginViewModel);
 
-            return RedirectToAction();
+            return LocalRedirect(loginViewModel.ReturnUrl ?? "/");
         }
         catch (Exception error)
         {
             ModelState.AddModelError(string.Empty, error.Message);
 
-            return View(loginDto);
+            return View(loginViewModel);
         }
     }
 
