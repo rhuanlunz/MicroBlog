@@ -24,6 +24,7 @@ public class PostRepository : IPostRepository
     {
         return await _context.Posts
             .AsNoTracking()
+            .Include(post => post.User)
             .OrderByDescending(post => post.CreatedAt)
             .ToListAsync();
     }
@@ -32,6 +33,7 @@ public class PostRepository : IPostRepository
     {
         return await _context.Posts
             .AsNoTracking()
+            .Include(post => post.User)
             .FirstOrDefaultAsync(post => post.Id == postId);
     }
 

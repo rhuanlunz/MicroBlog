@@ -4,11 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace Web.Controllers;
 
 [Route("profile")]
+[Authorize]
 public class ProfileController : Controller
 {
-    // GET: ProfileController
     [Route("create")]
-    [Authorize]
     public ActionResult Create()
     {
         return View();

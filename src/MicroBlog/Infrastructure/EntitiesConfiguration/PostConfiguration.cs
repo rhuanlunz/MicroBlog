@@ -21,5 +21,10 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
 
         builder.Property(post => post.Content)
             .HasMaxLength(500);
+
+        builder.HasOne(post => post.User)
+            .WithMany(user => user.Posts)
+            .HasForeignKey(key => key.UserId)
+            .IsRequired();
     }
 }
