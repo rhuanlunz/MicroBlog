@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using System.Web;
 using ApplicationCore.DTOs;
 using AutoMapper;
@@ -10,23 +9,21 @@ namespace ApplicationCore.Services;
 public class PostApiService : IPostApiService
 {
     private readonly IPostRepository _postRepository;
-    private readonly IUserRepository _userRepository;
+    private readonly ILikeRepository _likeRepository;
     private readonly IMapper _mapper;
 
     public PostApiService(
         IPostRepository postRepository,
-        IUserRepository userRepository,
+        ILikeRepository likeRepository,
         IMapper mapper)
     {
         _postRepository = postRepository;
-        _userRepository = userRepository;
+        _likeRepository = likeRepository;
         _mapper = mapper;
     }
 
-    public async Task CreatePostAsync(CreatePostDTO newPost, ClaimsPrincipal user)
+    public async Task CreatePostAsync(CreatePostDTO newPost, int userId)
     {
-        var userId = await _userRepository.GetUserId(user);
-
         if (userId != newPost.UserId)
         {
             throw new Exception("Operation not allowed!");
@@ -37,7 +34,7 @@ public class PostApiService : IPostApiService
         await _postRepository.CreatePostAsync(newPostEntity);
     }
 
-    public async Task DeletePostAsync(int postId, ClaimsPrincipal user)
+    public async Task DeletePostAsync(int postId, int userId)
     {
         var post = await _postRepository.GetPostByIdAsync(postId);
 
@@ -45,8 +42,6 @@ public class PostApiService : IPostApiService
         {
             throw new NullReferenceException($"Post {postId} not found!");
         }
-
-        var userId = await _userRepository.GetUserId(user);
 
         if (userId != post.UserId)
         {
@@ -73,6 +68,34 @@ public class PostApiService : IPostApiService
         }
 
         return _mapper.Map<PostDTO>(post);
+    }
+
+    public async Task<int> LikePostAsync(LikeDTO likeDto)
+    {
+        var post = await _postRepository.GetPostByIdAsync(likeDto.PostId);
+
+        if (post == null)
+        {
+            throw new NullReferenceException($"Post {likeDto.PostId} not found!");
+        }
+
+        if (!_likeRepository.IsPostLikedByUser(likeDto.PostId, likeDto.UserId))
+        {
+            var like = _mapper.Map<Like>(likeDto);
+
+            await _likeRepository.AddLikeAsync(like);
+            post.AddLike();
+        }
+        else
+        {
+            var like = await _likeRepository.GetUserLikeAsync(likeDto.PostId, likeDto.UserId);
+
+            await _likeRepository.RemoveLikeAsync(like);
+            post.RemoveLike();
+        }
+
+        await _postRepository.UpdatePostAsync(post);
+        return post.TotalLikes;
     }
 
     private static void EncodeUserInput(PostDTO post)

@@ -7,4 +7,5 @@ public class User : IdentityUser<int>
     public string? Description { get; set; }
 
     public ICollection<Post> Posts { get; set; } = [];
+    public ICollection<Like> Likes { get; set; } = [];
 }

@@ -25,7 +25,7 @@ public class AuthService : IAuthService
 
     public async Task LoginAsync(LoginDTO loginDto)
     {
-        var user = await _userRepository.FindUserByEmail(loginDto.Email);
+        var user = await _userRepository.FindUserByEmailAsync(loginDto.Email);
         if (user == null)
         {
             throw new NullReferenceException("User not exist!");
@@ -47,6 +47,6 @@ public class AuthService : IAuthService
     {
         var user = _mapper.Map<User>(registerDto);
 
-        return await _userRepository.CreateUser(user, registerDto.Password);
+        return await _userRepository.CreateUserAsync(user, registerDto.Password);
     }
 }

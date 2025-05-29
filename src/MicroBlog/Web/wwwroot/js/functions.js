@@ -1,4 +1,4 @@
-const likePostPath = "/api/posts/like_post";
+const likePostPath = (postId) => `/api/posts/${postId}/like`;
 
 export const getPostsPath = "/api/posts";
 export const getUserPostsPath = (userId) => `${getPostsPath}/${userId}`;
@@ -8,7 +8,7 @@ export function renderPosts(posts) {
 
     if (posts.length != 0) {
         posts.data.forEach((post) => {
-            postsDiv.innerHTML += createPostDiv(post.id, post.username, formatDate(post.createdAt), post.content, post.likes);
+            postsDiv.innerHTML += createPostDiv(post.id, post.username, formatDate(post.createdAt), post.content, post.totalLikes);
         });
 
         postsDiv.innerHTML += "<p id='end'>~ The End. ~</p>";
@@ -25,8 +25,8 @@ export function addLikePostEvent() {
             const postDiv = this.parentNode.parentNode.parentNode;
             const postId = postDiv.id;
 
-            fetch(likePostPath, {
-                method: "POST",
+            fetch(likePostPath(postId), {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -38,7 +38,7 @@ export function addLikePostEvent() {
                 throw new Error("Response not ok!");
             })
             .then(data => {
-                this.innerHTML = `${data} Likes`;
+                this.innerHTML = `${data.data} Likes`;
             })
             .catch(e => console.error(e));
         });

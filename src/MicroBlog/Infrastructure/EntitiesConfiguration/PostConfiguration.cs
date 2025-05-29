@@ -16,7 +16,7 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
         builder.Property(post => post.CreatedAt)
             .IsRequired();
 
-        builder.Property(post => post.Likes)
+        builder.Property(post => post.TotalLikes)
             .IsRequired();
 
         builder.Property(post => post.Content)

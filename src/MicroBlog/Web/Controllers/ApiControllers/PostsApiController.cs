@@ -1,7 +1,9 @@
+using System.Security.Claims;
 using ApplicationCore.DTOs;
 using ApplicationCore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration.UserSecrets;
 
 namespace Web.Controllers.ApiControllers;
 
@@ -17,6 +19,7 @@ public class PostsApiController : Controller
         _postApiService = postApiService;
     }
 
+    // GET /api/posts
     [HttpGet]
     [AllowAnonymous]
     public async Task<IActionResult> GetAllPostsAsync()
@@ -30,9 +33,10 @@ public class PostsApiController : Controller
         });
     }
 
+    // GET /api/posts/{id}
     [HttpGet("{postId}")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetPostByIdAsync(int postId)
+    public async Task<IActionResult> GetPostByIdAsync([FromRoute] int postId)
     {
         try
         {
@@ -54,12 +58,15 @@ public class PostsApiController : Controller
         }
     }
 
+    // POST /api/posts
     [HttpPost]
     public async Task<IActionResult> CreatePostAsync([FromBody] CreatePostDTO newPost)
     {
         try
         {
-            await _postApiService.CreatePostAsync(newPost, User);
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            await _postApiService.CreatePostAsync(newPost, userId);
 
             return Ok(new
             {
@@ -77,12 +84,15 @@ public class PostsApiController : Controller
         }
     }
 
+    // DELETE /api/posts/{id}
     [HttpDelete("{postId}")]
-    public async Task<IActionResult> DeletePostAsync(int postId)
+    public async Task<IActionResult> DeletePostAsync([FromRoute] int postId)
     {
         try
         {
-            await _postApiService.DeletePostAsync(postId, User);
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            await _postApiService.DeletePostAsync(postId, userId);
 
             return Ok(new
             {
@@ -96,6 +106,34 @@ public class PostsApiController : Controller
             {
                 success = false,
                 message = error.Message
+            });
+        }
+    }
+
+    // PUT /api/posts/{id}/like
+    [HttpPut("{postId}/like")]
+    public async Task<IActionResult> LikePostAsync([FromRoute] int postId)
+    {
+        try
+        {
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            LikeDTO likeDto = new(postId, userId);
+
+            int totalLikes = await _postApiService.LikePostAsync(likeDto);
+
+            return Ok(new
+            {
+                success = true,
+                data = totalLikes
+            });
+        }
+        catch (Exception error)
+        {
+            return BadRequest(new
+            {
+                success = false,
+                data = error.Message
             });
         }
     }

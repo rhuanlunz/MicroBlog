@@ -9,6 +9,7 @@ namespace Infrastructure.Context;
 public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
 {
     public DbSet<Post> Posts { get; set; }
+    public DbSet<Like> Likes { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -18,5 +19,6 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
 
         builder.ApplyConfiguration(new PostConfiguration());
         builder.ApplyConfiguration(new UserConfiguration());
+        builder.ApplyConfiguration(new LikeConfiguration());
     }
 }
