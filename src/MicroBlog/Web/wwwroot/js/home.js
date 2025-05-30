@@ -1,16 +1,10 @@
 import { getPostsPath, renderPosts, addLikePostEvent } from "./functions.js";
 
 window.addEventListener("load", () => {
-    fetch(getPostsPath)
-    .then(response => {
-        if (response.ok)
-            return response.json();
-        throw new Error("Response not ok!");
-    })
-    .then(posts => {    
-        renderPosts(posts);
+    $.get(getPostsPath, (data) => {
+        renderPosts(data);
 
         addLikePostEvent();
     })
-    .catch(e => console.error(e));
+    .fail((jqXHR, textStatus, error) => console.error(error));
 });

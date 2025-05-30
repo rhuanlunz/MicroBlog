@@ -1,12 +1,10 @@
-@model Web.Models.ProfileViewModel
+@model ApplicationCore.DTOs.ProfileDTO
 @{
     ViewData["Title"] = "Profile";
 }
 
 <div id="profile">
-    <div id="user-info">
-        <input type="text" id="user-id" value="@Model.Id" hidden>
-        
+    <div id="user-info">        
         <picture>
             <img src="/images/profile-placeholder.jpg" alt="profile picture" id="profile-pic">
         </picture>

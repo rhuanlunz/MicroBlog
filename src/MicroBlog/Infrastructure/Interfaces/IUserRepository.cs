@@ -7,4 +7,5 @@ public interface IUserRepository
 {
     Task<IdentityResult> CreateUserAsync(User user, string password);
     Task<User>? FindUserByEmailAsync(string email);
+    Task<User>? FindUserByUsernameAsync(string username);
 }

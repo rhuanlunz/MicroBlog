@@ -19,5 +19,8 @@ public class ProductMappingProfile : Profile
 
         CreateMap<Post, PostDTO>()
             .ForMember(dest => dest.Username, src => src.MapFrom(src => src.User.UserName));
+
+        CreateMap<User, ProfileDTO>()
+            .ForMember(dest => dest.Username, src => src.MapFrom(src => src.UserName));
     }
 }

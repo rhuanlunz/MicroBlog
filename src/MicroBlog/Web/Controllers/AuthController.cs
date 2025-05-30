@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -65,7 +66,7 @@ public class AuthController : Controller
         {
             await _authService.LoginAsync(loginViewModel);
 
-            return LocalRedirect(loginViewModel.ReturnUrl ?? "/");
+            return LocalRedirect(loginViewModel.ReturnUrl ?? $"/profile/{User.FindFirstValue(ClaimTypes.Name)}");
         }
         catch (Exception error)
         {

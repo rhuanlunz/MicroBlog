@@ -17,27 +17,4 @@
 
 <a id="back" href="/profile/@username">Go back</a>
 
-<script>
-    document.querySelector("#send").addEventListener("click", async () => {
-        const userId = document.querySelector("#user-id").innerText;
-        const content = document.querySelector("#content").value;
-
-        fetch("/api/posts", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                'userid': userId,
-                'content': content
-            })
-        })
-        .then(r => {
-            if (r.ok)
-                window.history.back();
-            
-            throw new Error("Error! Response not ok.");
-        })
-        .catch(e => console.error(e));
-    });
-</script>
+<script type="module" src="~/js/create.js"></script>

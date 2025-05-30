@@ -29,6 +29,16 @@ public class PostRepository : IPostRepository
             .ToListAsync();
     }
 
+    public async Task<List<Post>> GetPostsByUsernameAsync(string username)
+    {
+        return await _context.Posts
+            .AsNoTracking()
+            .Include(post => post.User)
+            .Where(post => post.User.UserName == username)
+            .OrderByDescending(post => post.CreatedAt)
+            .ToListAsync();
+    }
+
     public async Task<Post> GetPostByIdAsync(int postId)
     {
         return await _context.Posts

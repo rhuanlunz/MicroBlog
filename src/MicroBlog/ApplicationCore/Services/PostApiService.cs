@@ -70,6 +70,13 @@ public class PostApiService : IPostApiService
         return _mapper.Map<PostDTO>(post);
     }
 
+    public async Task<List<PostDTO>> GetAllUserPostsAsync(string username)
+    {
+        var userPosts = await _postRepository.GetPostsByUsernameAsync(username);
+
+        return _mapper.Map<List<PostDTO>>(userPosts);
+    }
+
     public async Task<int> LikePostAsync(LikeDTO likeDto)
     {
         var post = await _postRepository.GetPostByIdAsync(likeDto.PostId);

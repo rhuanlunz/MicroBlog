@@ -58,6 +58,31 @@ public class PostsApiController : Controller
         }
     }
 
+    // GET /api/posts/user/{username}
+    [HttpGet("user/{username}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetAllUserPostsAsync([FromRoute] string username)
+    {
+        try
+        {
+            var userPosts = await _postApiService.GetAllUserPostsAsync(username);
+
+            return Ok(new
+            {
+                success = true,
+                data = userPosts
+            });
+        }
+        catch (Exception error)
+        {
+            return BadRequest(new
+            {
+                success = false,
+                message = error.Message
+            });
+        }
+    }
+
     // POST /api/posts
     [HttpPost]
     public async Task<IActionResult> CreatePostAsync([FromBody] CreatePostDTO newPost)
@@ -133,7 +158,7 @@ public class PostsApiController : Controller
             return BadRequest(new
             {
                 success = false,
-                data = error.Message
+                message = error.Message
             });
         }
     }

@@ -1,10 +1,10 @@
 const likePostPath = (postId) => `/api/posts/${postId}/like`;
 
 export const getPostsPath = "/api/posts";
-export const getUserPostsPath = (userId) => `${getPostsPath}/${userId}`;
+export const getUserPostsPath = (username) => `${getPostsPath}/user/${username}`;
 
 export function renderPosts(posts) {
-    const postsDiv = document.querySelector("#posts");
+    const postsDiv = $("#posts")[0];
 
     if (posts.length != 0) {
         posts.data.forEach((post) => {
@@ -25,22 +25,14 @@ export function addLikePostEvent() {
             const postDiv = this.parentNode.parentNode.parentNode;
             const postId = postDiv.id;
 
-            fetch(likePostPath(postId), {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(postId)
+            $.ajax({
+                url: likePostPath(postId),
+                type: "PUT",
+                success: (data) => {
+                    this.innerHTML = `${data.data} Likes`;
+                }
             })
-            .then(r => {
-                if (r.ok)
-                    return r.json();
-                throw new Error("Response not ok!");
-            })
-            .then(data => {
-                this.innerHTML = `${data.data} Likes`;
-            })
-            .catch(e => console.error(e));
+            .fail((jqXHR, textStatus, error) => console.error(error));
         });
     })
 }
