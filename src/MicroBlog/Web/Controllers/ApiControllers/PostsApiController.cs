@@ -3,7 +3,6 @@ using ApplicationCore.DTOs;
 using ApplicationCore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration.UserSecrets;
 
 namespace Web.Controllers.ApiControllers;
 

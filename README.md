@@ -45,6 +45,7 @@ This application will serve as a hands-on platform for exploring key concepts su
 * HTML
 * CSS
 * JavaScript
+* JQuery
 
 ### Back-End
 
@@ -52,48 +53,6 @@ This application will serve as a hands-on platform for exploring key concepts su
 * ASPNET Identity
 * Entity Framework
 * SQLite3
-
----
-
-## Controllers
-
-### Home
-
-Handles interactions that do not require authentication. Currently, it only displays the index page.
-
-**Route:** `/`
-
-### Account
-
-Handle account registration, login and log out.
-
-**Route:** `/account`
-
-### Profile
-
-Handle profile visualization, post creation and profile editing.
-
-**Route:** `/profile`
-
-### Posts API 
-
-Handle every post interaction.
-
-**Route:** `/api/posts`
-
-#### Not require authentication
-* `/api/posts/get_posts`
-    - Return all posts from **Posts** table.
-
-#### Require authentication
-* `/api/posts/get_posts/{userId}`
-    - Return all posts of especified **userId** from **Posts** table.
-
-* `/api/posts/create_post`
-    - Create new post.
-
-* `/api/posts/like_post`
-    - Like post.
 
 ---
 

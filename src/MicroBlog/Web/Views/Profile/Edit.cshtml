@@ -1,4 +1,4 @@
-@model Web.Models.EditProfileViewModel
+@model ApplicationCore.DTOs.EditProfileDTO
 @{
     ViewData["Title"] = "Edit";
 }
@@ -38,6 +38,7 @@
     <div>
         <button type="submit">Save changes</button>
     </div>
+
 </form>
 
 <a id="back" href="/profile/@Model.Username.ToLower()">Go back</a>
